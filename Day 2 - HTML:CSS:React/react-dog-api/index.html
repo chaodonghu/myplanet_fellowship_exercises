@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+<style id="jsbin-css">
+.breed__item {
+  background: teal;
+  box-shadow: 4px 4px orange;
+  color: white;
+  font-family: Montserrat;
+  list-style: none;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+  
+  <div id="root"></div>
+  <script src="https://fb.me/react-15.1.0.js"></script>
+  <script src="https://fb.me/react-dom-15.1.0.js"></script>
+  
+<script id="jsbin-javascript">
+class Displayer extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      React.createElement("div", {className: "app__counter"}, this.props.counter)
+    );
+  }
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      breeds: [],
+      inputValue: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  
+  handleChange(e) {
+    this.setState({
+    inputValue: e.target.value
+    })
+  }
+  
+  componentDidMount() {
+    const that = this;
+    fetch('https://dog.ceo/api/breeds/list/all')
+    .then((response, reject) => {
+      return response.json();
+    })
+    .then((data) => {  
+      const breeds = [];
+      for (let key in data.message) {
+        breeds.push(key)
+      }
+      that.setState({ breeds });
+    });
+  }
+  
+  render() {
+    const breeds = this.state.breeds.map((breed, i) => {
+      return (React.createElement("li", {className: "breed__item", key: breed}, breed));
+    });
+    
+    const filter = this.state.inputValue.split(',');
+    
+    const filteredBreeds = breeds.filter((breed) => {
+      let display = false;
+      for (let i = 0; i < filter.length; i++) {
+        let currentFilter = filter[i];
+        if (breed.key.includes(currentFilter.trim())) {
+          display = true; 
+          break;
+        }
+      }
+      
+        if (display) {
+          return true;
+        }
+      });
+    
+    return (
+      React.createElement("div", null, 
+        React.createElement("input", {onChange: this.handleChange, value: this.state.inputValue}), 
+        React.createElement("ul", null, 
+          filteredBreeds
+        )
+      )
+    );
+  }
+}
+
+
+ReactDOM.render(
+  React.createElement(App, null),
+  document.getElementById('root')
+);
+</script>
+
+
+<script id="jsbin-source-css" type="text/css">.breed__item {
+  background: teal;
+  box-shadow: 4px 4px orange;
+  color: white;
+  font-family: Montserrat;
+  list-style: none;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
+  text-transform: uppercase;
+}</script>
+
+<script id="jsbin-source-javascript" type="text/javascript">class Displayer extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div className="app__counter">{this.props.counter}</div>
+    );
+  }
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      breeds: [],
+      inputValue: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  
+  handleChange(e) {
+    this.setState({
+    inputValue: e.target.value
+    })
+  }
+  
+  componentDidMount() {
+    const that = this;
+    fetch('https://dog.ceo/api/breeds/list/all')
+    .then((response, reject) => {
+      return response.json();
+    })
+    .then((data) => {  
+      const breeds = [];
+      for (let key in data.message) {
+        breeds.push(key)
+      }
+      that.setState({ breeds });
+    });
+  }
+  
+  render() {
+    const breeds = this.state.breeds.map((breed, i) => {
+      return (<li className="breed__item" key={breed}>{breed}</li>);
+    });
+    
+    const filter = this.state.inputValue.split(',');
+    
+    const filteredBreeds = breeds.filter((breed) => {
+      let display = false;
+      for (let i = 0; i < filter.length; i++) {
+        let currentFilter = filter[i];
+        if (breed.key.includes(currentFilter.trim())) {
+          display = true; 
+          break;
+        }
+      }
+      
+        if (display) {
+          return true;
+        }
+      });
+    
+    return (
+      <div>
+        <input onChange={this.handleChange} value={this.state.inputValue} />
+        <ul>
+          {filteredBreeds}
+        </ul>
+      </div>
+    );
+  }
+}
+
+
+ReactDOM.render(
+  <App/>,
+  document.getElementById('root')
+);</script></body>
+</html>
