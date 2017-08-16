@@ -5,8 +5,10 @@ const express = require('express');
 const app = express();
 const APORT = parseInt(process.env.PORT, 10);
 
-app.get('/', (req, res, next) => {
-  res.send('Hi');
+app.use('/', express.static('./src/static'));
+
+app.get('/api/test', (req, res, next) => {
+  res.json({ message: 'Testing'});
 });
 
 const port = parseInt(process.env.PORT || 8080, 10);
