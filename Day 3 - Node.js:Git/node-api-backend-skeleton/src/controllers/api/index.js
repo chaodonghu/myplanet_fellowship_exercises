@@ -1,7 +1,7 @@
-function handleTest(req,res,next) {
-  res.json({ message: 'Testing '});
+function square(number) {
+  return number * number;
 }
 
 module.exports = Object.freeze({
-  handleTest
+  square
 });
