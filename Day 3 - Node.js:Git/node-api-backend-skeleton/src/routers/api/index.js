@@ -4,11 +4,9 @@ const controller = require('../../controllers/api');
 
 const router = express.Router();
 
-router.get('/square/:number', (req, res, next) => {
-  const number = parseInt(req.params.number, 10);
-  const result = controller.square(number);
+router.get('/todos', (req, res, next) => {
+  res.json(controller.readTodos());
 
-  res.json({ result });
 });
 
 module.exports = router;
