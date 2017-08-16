@@ -1,18 +1,17 @@
 // Grab express module
 const express = require('express');
 
+const config = require('./config');
+const apiRouter = require('./routers/api');
+
 // Initialize express
 const app = express();
-const APORT = parseInt(process.env.PORT, 10);
 
 app.use('/', express.static('./src/static'));
 
-app.get('/api/test', (req, res, next) => {
-  res.json({ message: 'Testing'});
-});
+// Utilize the apiRouter middleware
+app.use('/api', apiRouter);
 
-const port = parseInt(process.env.PORT || 8080, 10);
-
-const server = app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+const server = app.listen(config.port, () => {
+  console.log(`Listening on port ${config.port}`);
 });
