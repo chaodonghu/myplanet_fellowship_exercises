@@ -1,24 +1,20 @@
-const todos = [
-  {
-    id: 1,
-    text: 'Buy milk'
-  },
-  {
-    id: 2,
-    text: 'Buy oranges'
-  },
-  {
-    id: 3,
-    text: 'Pay bills'
-  },
-  {
-    id: 4,
-    text: 'Go car shopping'
-  },
-];
+const todos = [];
+
+let id = 0;
+
+function createTodo(text) {
+  todos.push({
+    // Preincrement
+    id: ++id,
+    text
+  });
+}
 
 function readTodos() {
   return todos;
 }
 
-module.exports = Object.freeze({readTodos});
+module.exports = Object.freeze({
+  createTodo,
+  readTodos
+});
